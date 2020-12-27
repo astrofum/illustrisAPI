@@ -3,7 +3,7 @@ import numpy as np
 import h5py
 import changeUnits
 
-baseUrl = 'http://www.illustris-project.org/api/'
+baseUrl = 'http://www.tng-project.org/api/'
 headers = {"api-key" : "WELLTHISDOESNTSEEMRIGHT"}
 
 
@@ -14,7 +14,7 @@ def update_api_key(api_key):
     Parameters
     ----------
     api_key : str
-        Your API key for the illustris databank
+        Your API key for the TNG databank
     
     """
     
@@ -39,8 +39,8 @@ def get(path, params=None, fName='temp'): # gets data from url, saves to file
     if (len(headers['api-key'])!=32):
         print("Have you put in your API key? This one isn't working")
         print('Currently it is: ',headers['api-key'])
-        print('You can find your API key on the Illustris website:')
-        print('http://www.illustris-project.org/data/')
+        print('You can find your API key on the TNG website:')
+        print('http://www.tng-project.org/data/')
         print('and update it in this program using')
         print("iApi.headers['api-key']='*MYAPIKEY*'")
         print("Or permanently change it in iApi.py")
@@ -91,7 +91,7 @@ def getGalaxy(whichGalaxy, fields, simulation='Illustris-1', snapshot=135,
         4. Stars
         5. Black holes (bear in mind a galaxy may have none)
         The fields can be found in section 1. of this page. 
-        http://www.illustris-project.org/data/docs/specifications/
+        http://www.tng-project.org/data/docs/specifications/
         See below for an example
 
     simulation : str
@@ -162,9 +162,9 @@ def getGalaxy(whichGalaxy, fields, simulation='Illustris-1', snapshot=135,
     nFields=order.size
     
     if rewriteFile==1: # redownloads file from the internet
-        url='http://www.illustris-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/subhalos/'+str(whichGalaxy)+'/cutout.hdf5?'
+        url='http://www.tng-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/subhalos/'+str(whichGalaxy)+'/cutout.hdf5?'
         if getHalo==1:
-            url='http://www.illustris-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/halos/'+str(whichGalaxy)+'/cutout.hdf5?'
+            url='http://www.tng-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/halos/'+str(whichGalaxy)+'/cutout.hdf5?'
         
         thisParticle=0
         thisEntry=0
@@ -229,7 +229,7 @@ def getSubhaloField(field, simulation='Illustris-1', snapshot=135,
     field : str
         Name of the one field to be returned. The fields can be found in 
         section 2. of this page
-        http://www.illustris-project.org/data/docs/specifications/
+        http://www.tng-project.org/data/docs/specifications/
 
     simulation : str
         Which simulation to pull data from
@@ -286,7 +286,7 @@ def getSubhaloField(field, simulation='Illustris-1', snapshot=135,
     """
     
     if rewriteFile==1: # redownloads file from the internet
-        url='http://www.illustris-project.org/api/'+simulation+'/files/groupcat-'+str(snapshot)+'/?Subhalo='+field
+        url='http://www.tng-project.org/api/'+simulation+'/files/groupcat-'+str(snapshot)+'/?Subhalo='+field
         dataFile=get(url,fName=fileName)
     if rewriteFile == 0: # if we're not redownloading need to set path to the file
         dataFile=fileName+'.hdf5'
@@ -314,7 +314,7 @@ def getHaloField(field, simulation='Illustris-1', snapshot=135,
     field : str
         Name of the one field to be returned. The fields can be found in 
         section 2. of this page
-        http://www.illustris-project.org/data/docs/specifications/
+        http://www.tng-project.org/data/docs/specifications/
 
     simulation : str
         Which simulation to pull data from
@@ -371,7 +371,7 @@ def getHaloField(field, simulation='Illustris-1', snapshot=135,
     """
     
     if rewriteFile==1: # redownloads file from the internet
-        url='http://www.illustris-project.org/api/'+simulation+'/files/groupcat-'+str(snapshot)+'/?Group='+field
+        url='http://www.tng-project.org/api/'+simulation+'/files/groupcat-'+str(snapshot)+'/?Group='+field
         dataFile=get(url,fName=fileName)
     if rewriteFile == 0: # if we're not redownloading need to set path to the file
         dataFile=fileName+'.hdf5'
@@ -411,13 +411,13 @@ def getHaloData(whichHalo, simulation='Illustris-1', snapshot=135):
     data : dict
         A dictionary of data, with an entry for each field (with field names 
         from section 2. of this page
-        http://www.illustris-project.org/data/docs/specifications/
+        http://www.tng-project.org/data/docs/specifications/
         
     
     """
 
     units=changeUnits.makeHaloDict(simulation=simulation,snapshot=snapshot)
-    url='http://www.illustris-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/halos/'+str(whichHalo)+'/info.json'
+    url='http://www.tng-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/halos/'+str(whichHalo)+'/info.json'
     data=get(url)
     haloData=data['Group']
     haloKeys=list(haloData.keys())
@@ -458,12 +458,12 @@ def getSubhaloData(whichSubhalo, simulation='Illustris-1', snapshot=135):
     data : dict
         A dictionary of data, with an entry for each field (with field names 
         from section 2. of this page
-        http://www.illustris-project.org/data/docs/specifications/
+        http://www.tng-project.org/data/docs/specifications/
 
     """
 
     units=changeUnits.makeSubhaloDict(simulation=simulation,snapshot=snapshot)
-    infoUrl='http://www.illustris-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/subhalos/'+str(whichSubhalo)+'/info.json'
+    infoUrl='http://www.tng-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/subhalos/'+str(whichSubhalo)+'/info.json'
     infoData=get(infoUrl)
     subhaloData=infoData['Subhalo']
     subhaloKeys=list(subhaloData.keys())
@@ -500,7 +500,7 @@ def getTree(whichSubhalo, simulation='Illustris-1', snapshot=135):
     
     """
 
-    treeUrl='http://www.illustris-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/subhalos/'+str(whichSubhalo)+'/sublink/simple.json'
+    treeUrl='http://www.tng-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/subhalos/'+str(whichSubhalo)+'/sublink/simple.json'
     treeData=get(treeUrl)
     treeData['Main']=np.array(treeData['Main']) #don't know why these are lists but numpy arrays seem more useful
     treeData['Mergers']=np.array(treeData['Mergers'])
@@ -531,7 +531,7 @@ def getSnapData(snapshot=135, simulation='Illustris-1'):
         
     """
     
-    snapUrl='http://www.illustris-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/'
+    snapUrl='http://www.tng-project.org/api/'+simulation+'/snapshots/'+str(snapshot)+'/'
     snapData=get(snapUrl)
     data={'Simulation':simulation}
     data['SnapshotNumber']=snapshot
@@ -578,7 +578,7 @@ def getSimData(simulation='Illustris-1', getRedshifts=1):
         
     """
 
-    simUrl='http://www.illustris-project.org/api/'+simulation+'/'
+    simUrl='http://www.tng-project.org/api/'+simulation+'/'
     simData=get(simUrl)
     #could add table of snapshots, redshifts and times
     data={'Simulation':simulation}
@@ -612,6 +612,6 @@ def getSimData(simulation='Illustris-1', getRedshifts=1):
             snapshots[thisSnap,1]=z
             a=1/(1+z)
             snapshots[thisSnap,2]=a
-            snapshots[thisSnap,3]=integrate.quad(tInt,0,a)[0] #NOT THE SAME AS ON THE ILLUSTRIS WEBSITE (no idea why not tho...)
+            snapshots[thisSnap,3]=integrate.quad(tInt,0,a)[0] #NOT THE SAME AS ON THE TNG WEBSITE (no idea why not tho...)
         data['Redshifts']=snapshots
     return data
